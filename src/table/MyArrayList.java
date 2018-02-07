@@ -1,11 +1,26 @@
 package table;
+/**
+ * 需要实现的方法
+ * add 两个 （int AnyType） （AnyType）
+ * remove
+ * isEmpty
+ * get
+ * set
+ *
+ */
 
+import org.junit.Test;
+import org.omg.CORBA.Any;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class MyArrayList<AnyType> implements Iterable<AnyType> {
     private Object[] elementData;
+    //基础容量 常量应使用final static修饰final后保证类的多个实例的常量一致
     private static final int  DEFAULT_CAPACITY = 10;
     //存储元素个数
     private int theSize;
@@ -71,7 +86,12 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
         theSize++;
     }
 
+    /**
+     * 改变数组容量
+     * @param newCapacity 新容量
+     */
     private void ensureCapacity(int newCapacity) {
+
         if (newCapacity < theSize) {
             return;
         }
@@ -99,7 +119,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
 
     @Override
     public Iterator<AnyType> iterator() {
-        return null;
+        return new ArrayListIterator();
     }
 
     @Override
@@ -112,5 +132,34 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
         return null;
     }
     //add
+    @Test
+    public void test() {
+        ArrayList list = new ArrayList();
+    }
 
+    private class ArrayListIterator implements Iterator<AnyType>{
+        private int currentIndex = 0;
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size();
+        }
+
+        @Override
+        public AnyType next() {
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+            return (AnyType) elementData[currentIndex++];
+        }
+
+        @Override
+        public void remove() {
+            MyArrayList.this.remove(--currentIndex);
+        }
+
+        @Override
+        public void forEachRemaining(Consumer action) {
+
+        }
+    }
 }
