@@ -43,6 +43,20 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType> {
         this.size = 0;
     }
 
+    //实现MyLinkedList contains方法
+    public <AnyType> boolean contains(AnyType value){
+        //思路 遍历双链表 定义flag 当存在值相等Node flag = true 跳出循环
+        boolean flag = false;
+        for(int i = 0; i < size(); i++){
+            Node temp = node(i);
+            if (temp.element == value) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
     Node<AnyType> node(int index) {
         Node<AnyType> temp;
         if (index < this.size >> 1) {
